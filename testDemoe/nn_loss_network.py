@@ -1,5 +1,6 @@
+import torch.optim
 import torchvision.datasets
-from torch import nn
+from torch import nn, optim
 from torch.nn import Sequential, Conv2d, MaxPool2d, Flatten, Linear
 from torch.utils.data import DataLoader
 
@@ -46,12 +47,18 @@ class xck(nn.Module):
         return x
 loss = nn.CrossEntropyLoss()
 xck = xck()
-
-for data in dataloader:
-    imgs,targets = data
-    outputs = xck(imgs)
+optim = torch.optim.SGD(xck.parameters(),lr=0.01)
+for epoch in range(20):
+    running_loss = 0.0
+    for data in dataloader:
+        imgs,targets = data
+        outputs = xck(imgs)
     # print(outputs)
     # print(targets)
-    result_loss = loss(outputs,targets)
-    result_loss.backward()
-    print("ok")
+        result_loss = loss(outputs,targets)
+        optim.zero_grad()
+
+        result_loss.backward()
+        optim.step()
+        running_loss = running_loss +result_loss
+    print(running_loss)
