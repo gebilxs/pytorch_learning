@@ -278,7 +278,7 @@ plt.show()
 # frame.set_facecolor('0.90')
 # plt.show()
 
-fname = 'test_demo/2.jpg'
+fname = 'test_demo/img.png'
 image = np.array(plt.imread(fname))
 my_image = resize(image,(num_px,num_px)).reshape((1, num_px*num_px*3)).T
 my_predicted_image = predict(d["w"], d["b"], my_image)
