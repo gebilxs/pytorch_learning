@@ -7,6 +7,7 @@ from torchvision import datasets, transforms
 
 BATCH_SIZE=512 #大概需要2G的显存
 EPOCHS=20 # 总共训练批次
+
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu") # 让torch判断是否使用GPU，建议使用GPU环境，因为会快很多
 
 train_loader = torch.utils.data.DataLoader(
@@ -16,6 +17,8 @@ train_loader = torch.utils.data.DataLoader(
                            transforms.Normalize((0.1307,), (0.3081,))
                        ])),
         batch_size=BATCH_SIZE, shuffle=True)
+
+
 test_loader = torch.utils.data.DataLoader(
         datasets.MNIST('data', train=False, transform=transforms.Compose([
                            transforms.ToTensor(),
@@ -62,7 +65,7 @@ def train(model, device, train_loader, optimizer, epoch):
         例如: enumerate(['poil', 'love', 'boy'])==[(0,'poil'), (1,'love'), (2,'boy')]
     '''
     for batch_idx, (data, target) in enumerate(train_loader):
-        data, target = data.to(device), target.to(device)
+        data, target = data.to(device), target.to(device)#获取数据
 
         optimizer.zero_grad() ### 清空梯度值，优化是按照一个batch的
 
@@ -77,6 +80,7 @@ def train(model, device, train_loader, optimizer, epoch):
             Train Epoch: 1 [45568/60000 (75%)]	Loss: 0.133176
             Train Epoch: 2 [14848/60000 (25%)]	Loss: 0.107769
         '''
+        # 每次训练30次
         if(batch_idx+1)%30 == 0:
             # continue
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(

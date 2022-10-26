@@ -1,7 +1,7 @@
 #准备数据集
 import torch.optim
 import torchvision
-from torch.utils.tensorboard import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter
 
 from model import *
 from torch import nn
@@ -40,7 +40,7 @@ epoch = 10
 
 
 #添加tensorboard
-writer  = SummaryWriter("logs_train")
+# writer  = SummaryWriter("logs_train")
 for i in range(epoch):
     print("-----第{}轮,训练开始-----".format(i+1))
 
@@ -58,7 +58,7 @@ for i in range(epoch):
         total_train_step = total_train_step+1
         if total_train_step % 100 ==0:
             print("训练次数，{},Loss:{}".format(total_train_step,loss.item()))
-            writer.add_scalar("train_loss",loss.item(),total_train_step)
+            # writer.add_scalar("train_loss",loss.item(),total_train_step)
     #测试步骤开始
     xck.eval()
     total_test_loss = 0
@@ -77,11 +77,11 @@ for i in range(epoch):
         print("整体测试集上面的正确率：{}".format(total_accuracy/test_data_size))
 
         #写入tensorboard
-        writer.add_scalar("test_loss",total_test_loss,total_test_step)
-        writer.add_scalar("test_accuracy",total_accuracy/test_data_size,total_test_step)
+        # writer.add_scalar("test_loss",total_test_loss,total_test_step)
+        # writer.add_scalar("test_accuracy",total_accuracy/test_data_size,total_test_step)
         total_test_step = total_test_step+1
 
 
         torch.save(xck,"xck_{}.pth".format(i))
         print("model saved successfully")
-writer.close()
+# writer.close()

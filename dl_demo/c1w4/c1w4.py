@@ -587,16 +587,16 @@ print_mislabeled_images(classes, test_x, test_y, pred_test)
 ## START CODE HERE ##
 # 怎么训练图片
 # ?
-train_set_x_orig , train_set_y , test_set_x_orig , test_set_y , classes = lr_utils.load_dataset()
-num_px = train_set_x_orig.shape[1] #训练、测试集里面的图片的宽度和高度（均为64x64）。
-my_image = "test_demo/1.jpg" # change this to the name of your image file
-my_label_y = [1] # the true class of your image (1 -> cat, 0 -> non-cat)
+# train_set_x_orig , train_set_y , test_set_x_orig , test_set_y , classes = lr_utils.load_dataset()
+# num_px = train_set_x_orig.shape[1] #训练、测试集里面的图片的宽度和高度（均为64x64）。
+# my_image = "test_demo/1.jpg" # change this to the name of your image file
+# my_label_y = [1] # the true class of your image (1 -> cat, 0 -> non-cat)
 ## END CODE HERE ##
-
-fname = my_image
-image = np.array(plt.imread(fname))
-my_image = np.array(Image.fromarray(image).resize(size=(num_px,num_px))).reshape((num_px*num_px*3,1))
-my_predicted_image = predict(my_image, my_label_y, parameters)
-
-plt.imshow(image)
-print ("y = " + str(np.squeeze(my_predicted_image)) + ", your L-layer model predicts a \"" + classes[int(np.squeeze(my_predicted_image)),].decode("utf-8") +  "\" picture.")
+#
+# fname = my_image
+# image = np.array(plt.imread(fname))
+# my_image = np.array(Image.fromarray(image).resize(size=(num_px,num_px))).reshape((num_px*num_px*3,1))
+# my_predicted_image = predict(my_image, my_label_y, parameters)
+#
+# plt.imshow(image)
+# print ("y = " + str(np.squeeze(my_predicted_image)) + ", your L-layer model predicts a \"" + classes[int(np.squeeze(my_predicted_image)),].decode("utf-8") +  "\" picture.")

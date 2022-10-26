@@ -41,18 +41,22 @@ class xck(nn.Module):
         return x
 
 xck =xck()
+# 利用GPU进行训练 - cuda ---这里可以用Device写法来指定利用cpu还是gpu训练
 xck =xck.cuda()
+
 #损失函数
 loss_fn = nn.CrossEntropyLoss()
 loss_fn =loss_fn.cuda()
+
 #优化器
 learning_rate = 0.01
 optimizer = torch.optim.SGD(xck.parameters(),lr=learning_rate)
+# 其他优化方式还包括 mini-batch adam ---
 
 #设置训练网络的一些参数
-#记录训练的次数
+#记录训练的次数 全局变量
 total_train_step = 0
-#记录测试的次数
+#记录测试的次数 全局变量
 total_test_step = 0
 #训练的轮数
 epoch = 10
@@ -60,10 +64,11 @@ epoch = 10
 
 #添加tensorboard
 writer  = SummaryWriter("logs_train")
+
 for i in range(epoch):
     print("-----第{}轮,训练开始-----".format(i+1))
 
-    #训练步骤开始
+    #训练步骤开始 train --> ?
     xck.train()
     for data in train_dataloader:
         imgs,targets =data
@@ -71,16 +76,18 @@ for i in range(epoch):
         targets = targets.cuda()
         outputs = xck(imgs)
         loss = loss_fn(outputs,targets)
-        #进行梯度清零,优化器优化模型
         optimizer.zero_grad()
+        # 进行梯度清零,优化器优化模型
         loss.backward()
+        #反向传播
         optimizer.step()
-
+        # optimizer.step 执行一次优化步骤，通过梯度下降法来更新参数的值
         total_train_step = total_train_step+1
+        #更新训练的次数
         if total_train_step % 100 ==0:
             print("训练次数，{},Loss:{}".format(total_train_step,loss.item()))
             writer.add_scalar("train_loss",loss.item(),total_train_step)
-    #测试步骤开始
+    #测试步骤开始 eval --> ?
     xck.eval()
     total_test_loss = 0
     total_accuracy = 0
@@ -100,11 +107,11 @@ for i in range(epoch):
         print("整体测试集上面的正确率：{}".format(total_accuracy/test_data_size))
 
         #写入tensorboard
-        writer.add_scalar("test_loss",total_test_loss,total_test_step)
-        writer.add_scalar("test_accuracy",total_accuracy/test_data_size,total_test_step)
+        # writer.add_scalar("test_loss",total_test_loss,total_test_step)
+        # writer.add_scalar("test_accuracy",total_accuracy/test_data_size,total_test_step)
         total_test_step = total_test_step+1
 
 
-        torch.save(xck,"xck_{}.pth".format(i))
+        # torch.save(xck,"xck_{}.pth".format(i))
         print("model saved successfully")
-writer.close()
+# writer.close()
